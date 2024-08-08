@@ -7,7 +7,7 @@ st.title("Bedrock Chat Application using Claude 3 model on ROSA HCP")
 # Bedrock Runtimeサービス用のクライアント
 bedrock = boto3.client(
     service_name='bedrock-runtime',
-    region_name='us-west-2')
+    region_name='ap-northeast-1')
     
 def format_chat_history(messages):
     formatted_history = ""
@@ -45,15 +45,14 @@ if prompt := st.chat_input("このテキストボックスに文章を入力し�
 
         # 整形された対話履歴と新しいユーザー入力をモデルに送信
         body = json.dumps({
-            'max_tokens': 4000,
+            'max_tokens': 1000,
             "messages": [{"role": "user", "content": prompt}],
             "anthropic_version": "bedrock-2023-05-31"
         })
         accept = 'application/json'
         contentType = 'application/json'
         model_id = 'anthropic.claude-3-haiku-20240307-v1:0'
-        #model_id = 'anthropic.claude-3-opus-20240229-v1:0'
-        #model_id = 'anthropic.claude-3-sonnet-20240229-v1:0'
+        #model_id = 'anthropic.claude-3-5-sonnet-20240620-v1:0'
 
         response = bedrock.invoke_model_with_response_stream(
             body=body, modelId=model_id, accept=accept, contentType=contentType)
